@@ -151,6 +151,31 @@ let checkNameTransPort = (name) => {
     }
   })
 }
+//Booking
+let BookingInfo = (getInfo) => {
+  return new Promise(async (resolve, rejct) => {
+    try {
+      let bookingData = {};
+
+      let User = await db.Booking.create({
+        date: getInfo.date,
+        idUser: getInfo.idUser,
+        Time: getInfo.Time,
+        Adult: getInfo.Adult,
+        Children: getInfo.Children,
+        Status: getInfo.Status,
+        Price: getInfo.Price
+      })
+      bookingData.errCode = 0;
+      bookingData.errMessage = 'Booking Succerss!!!'
+
+      resolve(bookingData)
+    }
+    catch (e) {
+      rejct(e)
+    }
+  })
+}
 module.exports = {
-  UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort
+  UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort, BookingInfo
 }

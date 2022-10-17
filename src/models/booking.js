@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     Time: DataTypes.STRING,
     Adult: DataTypes.INTEGER,
     Children: DataTypes.INTEGER,
-    Status: DataTypes.BOOLEAN
+    Status: DataTypes.BOOLEAN,
+    Price: DataTypes.INTEGER
 
   }, {
     sequelize,

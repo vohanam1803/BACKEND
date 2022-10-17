@@ -8,8 +8,41 @@ import db from '../models/index';
 ///Dang ky
 let SignIn = async (req, res) => {
   let getInfo = req.body;
+  if (getInfo.email == null) {
+    return res.status(500).json({
+      message: 'Thieu Du Lieu Email De Dang Ky!!'
+    })
+  }
+  if (getInfo.password == null) {
+    return res.status(500).json({
+      message: 'Quen Nhap Password!!'
+    })
+  }
+  if (getInfo.address == null) {
+    return res.status(500).json({
+      message: 'Can Nhap Dia Chi!!'
+    })
+  }
+  if (getInfo.gender == null) {
+    return res.status(500).json({
+      message: 'Chua Chon Gioi Tinh!!'
+    })
+  }
+  if (getInfo.sdt == null) {
+    return res.status(500).json({
+      message: 'Can Nhap SDT!!'
+    })
+  }
   const salt = bcrypt.genSaltSync(saltRounds);
   const hash = bcrypt.hashSync(getInfo.password, salt);
+  let checkMail = await db.User.findOne({
+    where: { email: getInfo.email }
+  })
+  if (checkMail != null || checkMail != "" || checkMail != undefined) {
+    return res.status(500).json({
+      message: 'Email Da Ton Tai!!'
+    })
+  }
   let create = await db.User.create({
     firstName: getInfo.firstName,
     password: hash,
@@ -20,7 +53,7 @@ let SignIn = async (req, res) => {
     roleId: getInfo.role,
     SDT: getInfo.sdt
   })
-  console.log(create);
+  // console.log(create);
   return res.status(200).json({
     message: 'Dang Ky Thanh Cong!!'
   })
@@ -84,11 +117,58 @@ let ViewTransport = async (req, res) => {
 }
 //Booking
 let Booking = async (req, res) => {
-  let View = await db.TypeOfTransport.findAll();
+  let getInfo = req.body;
+  if (getInfo.idUser == null || getInfo.idUser == "" || getInfo.idUser == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri idUser De Booking!!'
+    })
+  }
+  if (getInfo.date == null || getInfo.date == "" || getInfo.date == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri date De Booking!!'
+    })
+  }
+  if (getInfo.Time == null || getInfo.Time == "" || getInfo.Time == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri Time De Booking!!'
+    })
+  }
+  if (getInfo.Adult == null || getInfo.Adult == "" || getInfo.Adult == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri Adult De Booking!!'
+    })
+  }
+  if (getInfo.Children == null || getInfo.Children == "" || getInfo.Children == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri Children De Booking!!'
+    })
+  }
+  if (getInfo.Status == null || getInfo.Status == "" || getInfo.Status == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri Status De Booking!!'
+    })
+  }
+  if (getInfo.Price == null || getInfo.Price == "" || getInfo.Price == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri Price De Booking!!'
+    })
+  }
+  //
+  let getInfoBookingg = await ServiceApiService.BookingInfo(getInfo)
   return res.status(200).json({
-    message: 'Check view TransPort!!',
-    TypeTransport: View
+    message: 'Check view Booking!!',
+    errCode: getInfoBookingg.errCode,
+    messageInfo: getInfoBookingg.errMessage,
+    Info: getInfoBookingg
   })
+
 }
 module.exports = {
   SignIn, loginuser, ViewHome, CreateTransport, ViewTransport, Booking
