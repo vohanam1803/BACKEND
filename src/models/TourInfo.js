@@ -15,9 +15,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   TourInfo.init({
     TotalTime: DataTypes.STRING,
-    date: DataTypes.DATE,
+    date: DataTypes.RANGE(DataTypes.DATE),
     Time: DataTypes.STRING,
+    Description: DataTypes.TEXT,
     idTypesOfTransport: DataTypes.INTEGER,
+    idRecommend: DataTypes.INTEGER,
     Price: DataTypes.INTEGER
   }, {
     sequelize,

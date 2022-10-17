@@ -199,6 +199,12 @@ let CreateTour = async (req, res) => {
       message: 'Chua Truyen Gia Tri idTypesOfTransport De Tao!!'
     })
   }
+  if (getInfo.idRecommend == null || getInfo.idRecommend == "" || getInfo.idRecommend == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri idRecommend De Tao!!'
+    })
+  }
   if (getInfo.Price == null || getInfo.Price == "" || getInfo.Price == undefined) {
     return res.status(500).json({
       errCode: 1,
@@ -215,12 +221,45 @@ let CreateTour = async (req, res) => {
       message: 'Khong ton tai id transport nay de them vao tour!!'
     })
   }
+  //check id recommend
+  let checkRecommend = await db.Recommend.findOne({
+    where: { id: getInfo.idRecommend }
+  });
+  if (checkRecommend == null || checkRecommend == "" || checkRecommend == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Khong ton tai id recommend nay de them vao info tour!!'
+    })
+  }
   let getTour = await ServiceApiService.OneTour(getInfo)
   return res.status(200).json({
     errCode: getTour.errCode,
     message: getTour.errMessage,
   })
 }
+
+
+/////////Create 1 CreateRecommend
+let CreateRecommend = async (req, res) => {
+  let getInfo = req.body;
+  if (getInfo.NameDiaDiem == null || getInfo.NameDiaDiem == "" || getInfo.NameDiaDiem == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri NameDiaDiem De Tao!!'
+    })
+  }
+  if (getInfo.LocalDiaDiem == null || getInfo.LocalDiaDiem == "" || getInfo.LocalDiaDiem == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri LocalDiaDiem De Tao!!'
+    })
+  }
+  let getRecommend = await ServiceApiService.OneRecommend(getInfo)
+  return res.status(200).json({
+    errCode: getRecommend.errCode,
+    message: getRecommend.errMessage,
+  })
+}
 module.exports = {
-  SignIn, loginuser, ViewHome, CreateTransport, ViewTransport, Booking, CreateTour
+  SignIn, loginuser, ViewHome, CreateTransport, ViewTransport, Booking, CreateTour, CreateRecommend
 }

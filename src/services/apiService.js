@@ -179,17 +179,32 @@ let OneTour = (getInfo) => {
   return new Promise(async (resolve, rejct) => {
     try {
       let tourData = {};
-
-      let data = await db.TourInfo.create({
-        TotalTime: getInfo.TotalTime,
-        date: getInfo.date,
-        Time: getInfo.Time,
-        idTypesOfTransport: getInfo.idTypesOfTransport,
-        Price: getInfo.Price
+      let AllTour = await db.TourInfo.findOne({
+        where: { idRecommend: getInfo.idRecommend }
       })
-      tourData.errCode = 0;
-      tourData.errMessage = 'Create Tour Success!!!'
-
+      // console.log(AllTour)
+      let Date = await db.TourInfo.findOne({
+        where: { date: getInfo.date }
+      })
+      // console.log(Date)
+      if (AllTour != null && Date != null) {
+        tourData.errCode = 1;
+        tourData.errMessage = 'Da ton tai truong nay khong the tao!!!'
+      }
+      else {
+        let data = await db.TourInfo.create({
+          TotalTime: getInfo.TotalTime,
+          date: getInfo.date,
+          Time: getInfo.Time,
+          Description: getInfo.Description,
+          idTypesOfTransport: getInfo.idTypesOfTransport,
+          idRecommend: getInfo.idRecommend,
+          Price: getInfo.Price
+        })
+        tourData.errCode = 0;
+        tourData.errMessage = 'Create Tour Success!!!'
+      }
+      /////
       resolve(tourData)
     }
     catch (e) {
@@ -197,6 +212,27 @@ let OneTour = (getInfo) => {
     }
   })
 }
+
+//Create OneRecommend
+let OneRecommend = (getInfo) => {
+  return new Promise(async (resolve, rejct) => {
+    try {
+      let RData = {};
+      ///
+      let data = await db.Recommend.create({
+        NameDiaDiem: getInfo.NameDiaDiem,
+        LocalDiaDiem: getInfo.LocalDiaDiem,
+      })
+      RData.errCode = 0;
+      RData.errMessage = 'Create Recomend Success!!!'
+
+      resolve(RData)
+    }
+    catch (e) {
+      rejct(e)
+    }
+  })
+}
 module.exports = {
-  UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort, BookingInfo, OneTour
+  UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort, BookingInfo, OneTour, OneRecommend
 }

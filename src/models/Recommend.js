@@ -15,8 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Recommend.init({
     NameDiaDiem: DataTypes.STRING,
-    LocalDiaDiem: DataTypes.STRING,
-    idTourFormation: DataTypes.INTEGER
+    LocalDiaDiem: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Recommend',

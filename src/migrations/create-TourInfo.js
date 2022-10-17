@@ -18,7 +18,14 @@ module.exports = {
       Time: {
         type: Sequelize.STRING
       },
+      Description: {
+        type: Sequelize.TEXT
+      },
       idTypesOfTransport: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      idRecommend: {
         allowNull: false,
         type: Sequelize.INTEGER
       },

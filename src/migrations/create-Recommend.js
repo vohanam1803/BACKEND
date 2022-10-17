@@ -15,9 +15,7 @@ module.exports = {
       LocalDiaDiem: {
         type: Sequelize.STRING
       },
-      idTourFormation: {
-        type: Sequelize.INTEGER
-      },
+
       ///
       createdAt: {
         allowNull: false,
