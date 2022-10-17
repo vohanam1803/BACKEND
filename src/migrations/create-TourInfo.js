@@ -12,12 +12,18 @@ module.exports = {
       TotalTime: {
         type: Sequelize.STRING
       },
+      date: {
+        type: Sequelize.DATE
+      },
+      Time: {
+        type: Sequelize.STRING
+      },
       idTypesOfTransport: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      Dinning: {
-        type: Sequelize.STRING
+      Price: {
+        type: Sequelize.INTEGER
       },
       ///
       createdAt: {

@@ -9,6 +9,7 @@ const initapi = (app) => {
   router.post('/CreateTransport', apicontroller.CreateTransport);
   router.get('/ViewTransport', apicontroller.ViewTransport);
   router.post('/Booking', apicontroller.Booking);
+  router.post('/CreateTour', apicontroller.CreateTour);
   ///
   return app.use('/api/v1/', router)
 }

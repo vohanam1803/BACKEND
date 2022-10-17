@@ -158,16 +158,14 @@ let BookingInfo = (getInfo) => {
       let bookingData = {};
 
       let User = await db.Booking.create({
-        date: getInfo.date,
         idUser: getInfo.idUser,
-        Time: getInfo.Time,
         Adult: getInfo.Adult,
         Children: getInfo.Children,
         Status: getInfo.Status,
-        Price: getInfo.Price
+        idTourInfo: getInfo.idTourInfo
       })
       bookingData.errCode = 0;
-      bookingData.errMessage = 'Booking Succerss!!!'
+      bookingData.errMessage = 'Booking Success!!!'
 
       resolve(bookingData)
     }
@@ -176,6 +174,29 @@ let BookingInfo = (getInfo) => {
     }
   })
 }
+//Create OneTour
+let OneTour = (getInfo) => {
+  return new Promise(async (resolve, rejct) => {
+    try {
+      let tourData = {};
+
+      let data = await db.TourInfo.create({
+        TotalTime: getInfo.TotalTime,
+        date: getInfo.date,
+        Time: getInfo.Time,
+        idTypesOfTransport: getInfo.idTypesOfTransport,
+        Price: getInfo.Price
+      })
+      tourData.errCode = 0;
+      tourData.errMessage = 'Create Tour Success!!!'
+
+      resolve(tourData)
+    }
+    catch (e) {
+      rejct(e)
+    }
+  })
+}
 module.exports = {
-  UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort, BookingInfo
+  UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort, BookingInfo, OneTour
 }

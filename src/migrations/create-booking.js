@@ -9,16 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      date: {
-        type: Sequelize.DATE
-      },
       idUser: {
         type: Sequelize.INTEGER,
         // references: 'User', // <<< Note, its table's name, not object name
         // referencesKey: 'id' // <<< Note, its a column name
-      },
-      Time: {
-        type: Sequelize.STRING
       },
       Adult: {
         type: Sequelize.STRING
@@ -29,7 +23,7 @@ module.exports = {
       Status: {
         type: Sequelize.BOOLEAN
       },
-      Price: {
+      idTourInfo: {
         type: Sequelize.INTEGER
       },
       ///

@@ -15,8 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   TourInfo.init({
     TotalTime: DataTypes.STRING,
+    date: DataTypes.DATE,
+    Time: DataTypes.STRING,
     idTypesOfTransport: DataTypes.INTEGER,
-    Dinning: DataTypes.STRING
+    Price: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'TourInfo',

@@ -115,25 +115,13 @@ let ViewTransport = async (req, res) => {
     TypeTransport: View
   })
 }
-//Booking
+////////////Booking
 let Booking = async (req, res) => {
   let getInfo = req.body;
   if (getInfo.idUser == null || getInfo.idUser == "" || getInfo.idUser == undefined) {
     return res.status(500).json({
       errCode: 1,
       message: 'Chua Truyen Gia Tri idUser De Booking!!'
-    })
-  }
-  if (getInfo.date == null || getInfo.date == "" || getInfo.date == undefined) {
-    return res.status(500).json({
-      errCode: 1,
-      message: 'Chua Truyen Gia Tri date De Booking!!'
-    })
-  }
-  if (getInfo.Time == null || getInfo.Time == "" || getInfo.Time == undefined) {
-    return res.status(500).json({
-      errCode: 1,
-      message: 'Chua Truyen Gia Tri Time De Booking!!'
     })
   }
   if (getInfo.Adult == null || getInfo.Adult == "" || getInfo.Adult == undefined) {
@@ -148,19 +136,33 @@ let Booking = async (req, res) => {
       message: 'Chua Truyen Gia Tri Children De Booking!!'
     })
   }
-  if (getInfo.Status == null || getInfo.Status == "" || getInfo.Status == undefined) {
+  if (getInfo.idTourInfo == null || getInfo.idTourInfo == "" || getInfo.idTourInfo == undefined) {
     return res.status(500).json({
       errCode: 1,
-      message: 'Chua Truyen Gia Tri Status De Booking!!'
+      message: 'Chua Truyen Gia Tri idTourInfo De Booking!!'
     })
   }
-  if (getInfo.Price == null || getInfo.Price == "" || getInfo.Price == undefined) {
+  //checkIduser
+  let checkIdUser = await db.User.findOne({
+    where: { id: getInfo.idUser }
+  });
+  if (checkIdUser == null || checkIdUser == "" || checkIdUser == undefined) {
     return res.status(500).json({
       errCode: 1,
-      message: 'Chua Truyen Gia Tri Price De Booking!!'
+      message: 'Khong ton tai id user nay de tham gia tour!!'
     })
   }
-  //
+  //checkTourinfo
+  let checkIdTourInfo = await db.TourInfo.findOne({
+    where: { id: getInfo.idTourInfo }
+  });
+  if (checkIdTourInfo == null || checkIdTourInfo == "" || checkIdTourInfo == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Khong ton tai id tour nay de tham gia!!'
+    })
+  }
+
   let getInfoBookingg = await ServiceApiService.BookingInfo(getInfo)
   return res.status(200).json({
     message: 'Check view Booking!!',
@@ -168,8 +170,57 @@ let Booking = async (req, res) => {
     messageInfo: getInfoBookingg.errMessage,
     Info: getInfoBookingg
   })
+}
 
+/////////Create 1 tour
+let CreateTour = async (req, res) => {
+  let getInfo = req.body;
+  if (getInfo.TotalTime == null || getInfo.TotalTime == "" || getInfo.TotalTime == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri TotalTime De Tao!!'
+    })
+  }
+  if (getInfo.date == null || getInfo.date == "" || getInfo.date == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri date De Tao!!'
+    })
+  }
+  if (getInfo.Time == null || getInfo.Time == "" || getInfo.Time == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri Time De Tao!!'
+    })
+  }
+  if (getInfo.idTypesOfTransport == null || getInfo.idTypesOfTransport == "" || getInfo.idTypesOfTransport == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri idTypesOfTransport De Tao!!'
+    })
+  }
+  if (getInfo.Price == null || getInfo.Price == "" || getInfo.Price == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Chua Truyen Gia Tri Price De Tao!!'
+    })
+  }
+  //check id transport
+  let checkIdTrans = await db.TypeOfTransport.findOne({
+    where: { id: getInfo.idTypesOfTransport }
+  });
+  if (checkIdTrans == null || checkIdTrans == "" || checkIdTrans == undefined) {
+    return res.status(500).json({
+      errCode: 1,
+      message: 'Khong ton tai id transport nay de them vao tour!!'
+    })
+  }
+  let getTour = await ServiceApiService.OneTour(getInfo)
+  return res.status(200).json({
+    errCode: getTour.errCode,
+    message: getTour.errMessage,
+  })
 }
 module.exports = {
-  SignIn, loginuser, ViewHome, CreateTransport, ViewTransport, Booking
+  SignIn, loginuser, ViewHome, CreateTransport, ViewTransport, Booking, CreateTour
 }
