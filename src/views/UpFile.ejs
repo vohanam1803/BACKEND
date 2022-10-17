@@ -1,0 +1,44 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UpFile</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+  <div class="topnav">
+    <a href="/">Home</a>
+    <a href="/UpFile" class="active">Upload File</a>
+    <!-- <a href="#contact">Contact</a>
+    <a href="#about">About</a> -->
+  </div>
+  <div>UpFile</div>
+  <!-- <img src="/images/JK1.jpg" width="500"> -->
+  <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data">
+    <div>
+      <label>Select your profile picture:</label>
+      <input type="file" name="profile_pic" />
+    </div>
+    <div>
+      <button type="submit" name="btn_upload_profile_pic" value="Upload">Save</button>
+    </div>
+  </form>
+
+  <div>UpFile Multi</div>
+  <!-- <img src="/images/JK1.jpg" width="500"> -->
+  <form method="POST" action="/upload-multi-pic" enctype="multipart/form-data">
+    <div>
+      <label>Select your profile picture:</label>
+      <input type="file" name="multi_pic" multiple />
+    </div>
+    <div>
+      <button type="submit" name="btn_upload-multi-pic" value="UploadMulti">Save</button>
+    </div>
+  </form>
+</body>
+
+</html>

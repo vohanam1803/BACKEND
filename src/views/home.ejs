@@ -1,0 +1,154 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello Nam</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+  <div class="topnav">
+    <a class="active" href="/">Home</a>
+    <a href="/UpFile">Upload File</a>
+    <!-- <a href="#contact">Contact</a>
+    <a href="#about">About</a> -->
+  </div>
+
+  <div>
+    <div class="w3-container">
+      <h2>Test Taikhoan khi Insert</h2>
+    </div>
+    <div class="create-user-container">
+      <form action="/Save" method="post">
+        <div>
+          <label>Email</label>
+          <input type="email" name="email" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" name="password" />
+        </div>
+        <div>
+          <label>FirstName</label>
+          <input type="text" name="firstName" />
+        </div>
+        <div>
+          <label>LastName</label>
+          <input type="text" name="lastName" />
+        </div>
+        <div>
+          <label>Address</label>
+          <input type="text" name="address" />
+        </div>
+        <div>
+          <label>SDT</label>
+          <input type="text" name="sdt" />
+        </div>
+        <div>
+          <label>Sex</label>
+          <select name="gender">
+            <option value="0">Female</option>
+            <option value="1">Male</option>
+          </select>
+        </div>
+        <div>
+          <label>Role</label>
+          <select name="role">
+            <option value="0">Admin</option>
+            <option value="1">Person</option>
+          </select>
+        </div>
+
+        <div>
+          <button type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+  <div>
+    <div class="w3-container">
+      <h2>Test Login</h2>
+    </div>
+    <div class="create-user-container">
+      <form action="/Login" method="post">
+        <div>
+          <label>TaiKhoan</label>
+          <input type="text" name="testtaikhoan" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" name="testpassword" />
+        </div>
+        <button type="submit">Save</button>
+    </div>
+    </form>
+  </div>
+  </div>
+
+  <div style="padding-left:16px">
+    <h1 style="text-align: center;">View Information</h1>
+    <div class="w3-container">
+      <table class="w3-table-all w3-hoverable">
+        <thead>
+          <tr class="w3-light-grey">
+            <th>ID User</th>
+            <th>Ten First</th>
+            <th>Ten Last</th>
+            <th>Email</th>
+            <th>Password</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i=0; i < dataUser.length; i++) { %>
+            <tr>
+              <td>
+                <%= dataUser[i].id %>
+              </td>
+              <td>
+                <%= dataUser[i].firstName %>
+              </td>
+              <td>
+                <%= dataUser[i].lastName %>
+              </td>
+              <td>
+                <%= dataUser[i].email %>
+              </td>
+              <td>
+                <%= dataUser[i].password %>
+              </td>
+              <td>
+                <a href="/Edit-User?id=<%= dataUser[i].id %>" type="button">Edit</a>
+                <a href="/Delete-User?id=<%= dataUser[i].id %>" type="button">Delete</a>
+              </td>
+              <!-- <td>
+                <button type="button">Detail</button>
+                <a href="/Detail/user/<%= dataUser[i].Id_phong %>" target="_blank">Detail Weapon</a>
+                <form action="/Edit/<%= dataUser[i].Id_phong %>" method="post">
+                  <input type="text" hidden value="<%= dataUser[i].Id_phong %>" name="userId" />
+                  <button type="submit">Edit</button>
+                </form>
+
+                <form action="/Xoa" method="post">
+                  <input type="text" hidden value="<%= dataUser[i].id_user %>" name="userId" />
+                  <button type="submit">Delete</button>
+                </form>
+
+              </td> -->
+            </tr>
+            <% } %>
+        </tbody>
+
+
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>

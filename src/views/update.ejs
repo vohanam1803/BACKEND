@@ -1,0 +1,35 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update User</title>
+</head>
+
+<body>
+  <form action="/Update-user" method="post">
+    <div>
+      <label>Email</label>
+      <input name="email" value="<%= dataUser.email %>" />
+    </div>
+    <!-- <div>
+      <label>Password</label>
+      <input name="password" value="<%= dataUser.password %>"/>
+    </div> -->
+    <div>
+      <label>FirstName</label>
+      <input name="firstName" value="<%= dataUser.firstName %>" />
+    </div>
+    <div>
+      <label>LastName</label>
+      <input name="lastName" value="<%= dataUser.lastName %>" />
+    </div>
+    <input type="text" hidden value="<%= dataUser.id %>" name="id" />
+    <div>
+      <button type="submit">Save</button>
+    </div>
+  </form>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+import express from "express";
+import apicontroller from "../controller/apicontroller"
+
+let router = express.Router();
+const initapi = (app) => {
+  router.post('/DangKy', apicontroller.SignIn);
+  router.post('/login', apicontroller.loginuser);
+  router.post('/ViewHome', apicontroller.ViewHome);
+  router.post('/CreateTransport', apicontroller.CreateTransport);
+  router.get('/ViewTransport', apicontroller.ViewTransport);
+  router.post('/Booking', apicontroller.Booking);
+  ///
+  return app.use('/api/v1/', router)
+}
+
+
+export default initapi;
+//module.export = initWebRoute;
