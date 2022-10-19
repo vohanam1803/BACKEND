@@ -164,6 +164,7 @@ let BookingInfo = (getInfo) => {
         Status: getInfo.Status,
         idTourInfo: getInfo.idTourInfo
       })
+
       bookingData.errCode = 0;
       bookingData.errMessage = 'Booking Success!!!'
 
@@ -249,12 +250,13 @@ let ViewBooking = (getInfo) => {
       }
       else {
         let RData = {};
+
         let data = await db.Booking.findOne({
-          attributes: ['id', 'Adult', 'Children', 'Status'],
+          attributes: ['id', 'Adult', 'Children', 'Status', 'idTourInfo'],
           where: { id: getInfo.id },
           include: [
             { model: db.User, attributes: ['id', 'firstName', 'lastName', 'SDT'] },
-            { model: db.TourInfo }
+            // { model: db.TourInfo }
 
             // { model: db.TourInfo, attributes: ['id', 'TotalTime', 'date', 'Time', 'Description', 'Price'] },
             // { model: db.TypeOfTransport, attributes: ['id', 'imageTransport'] },
@@ -263,8 +265,27 @@ let ViewBooking = (getInfo) => {
           raw: true,
           nest: true
         })
+        // console.log(data.idTourInfo)
+        let tourinfo = await db.TourInfo.findOne({
+          attributes: ['id', 'date', 'Time', 'Description', 'idTypesOfTransport', 'idRecommend', 'Price'],
+          where: { id: data.idTourInfo },
+          raw: true,
+          nest: true
+        })
+        //console.log(tourinfo)
+        let phuongtien = await db.TypeOfTransport.findOne({
+          attributes: ['id', 'imageTransport'],
+          where: { id: tourinfo.idTypesOfTransport },
+          raw: true,
+          nest: true
+        })
+        delete tourinfo.idTypesOfTransport;
+        delete tourinfo.idRecommend;
+        // console.log(phuongtien)
         RData.errCode = 0;
-        RData.errMessage = data
+        RData.errMessage = data;
+        RData.AddInfo = tourinfo;
+        RData.AddInfo2 = phuongtien;
         resolve(RData)
       }
     }

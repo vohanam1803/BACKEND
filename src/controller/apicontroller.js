@@ -38,25 +38,28 @@ let SignIn = async (req, res) => {
   let checkMail = await db.User.findOne({
     where: { email: getInfo.email }
   })
-  if (checkMail != null || checkMail != "" || checkMail != undefined) {
+  if (checkMail != null) {
     return res.status(500).json({
       message: 'Email Da Ton Tai!!'
     })
   }
-  let create = await db.User.create({
-    firstName: getInfo.firstName,
-    password: hash,
-    lastName: getInfo.lastName,
-    email: getInfo.email,
-    address: getInfo.address,
-    gender: getInfo.gender === '1' ? true : false,
-    roleId: getInfo.role,
-    SDT: getInfo.sdt
-  })
-  // console.log(create);
-  return res.status(200).json({
-    message: 'Dang Ky Thanh Cong!!'
-  })
+  else {
+    let create = await db.User.create({
+      firstName: getInfo.firstName,
+      password: hash,
+      lastName: getInfo.lastName,
+      email: getInfo.email,
+      address: getInfo.address,
+      gender: getInfo.gender === '1' ? true : false,
+      roleId: getInfo.role,
+      SDT: getInfo.sdt
+    })
+    // console.log(create);
+    return res.status(200).json({
+      message: 'Dang Ky Thanh Cong!!'
+    })
+  }
+
 }
 //////////////////Login
 let loginuser = async (req, res) => {
@@ -268,6 +271,8 @@ let ViewBooking = async (req, res) => {
   return res.status(200).json({
     errCode: info.errCode,
     InfoBooking: info.errMessage,
+    InfoTransport: info.AddInfo,
+    InfoRecommend: info.AddInfo2
   })
 }
 
