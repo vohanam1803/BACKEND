@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 import db from '../models/index';
 //////////////////Thu Vien//////////////////////
-///Dang ky
+//////////////////Dang ky
 let SignIn = async (req, res) => {
   let getInfo = req.body;
   if (getInfo.email == null) {
@@ -58,7 +58,7 @@ let SignIn = async (req, res) => {
     message: 'Dang Ky Thanh Cong!!'
   })
 }
-///Login
+//////////////////Login
 let loginuser = async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
@@ -84,7 +84,7 @@ let loginuser = async (req, res) => {
 
   })
 }
-///View trang chu
+//////////////////View trang chu
 let ViewHome = async (req, res) => {
   let View = await ServiceApiService.ViewTrangChu()
   return res.status(200).json({
@@ -92,7 +92,7 @@ let ViewHome = async (req, res) => {
     Alltributes: View
   })
 }
-///Tao Transport
+//////////////////Tao Transport
 let CreateTransport = async (req, res) => {
   let name = req.body.NameTransport;
   if (!name) {
@@ -107,7 +107,7 @@ let CreateTransport = async (req, res) => {
     message: getTransPort.errMessage,
   })
 }
-//View Transport
+//////////////////View Transport
 let ViewTransport = async (req, res) => {
   let View = await db.TypeOfTransport.findAll();
   return res.status(200).json({
@@ -115,7 +115,7 @@ let ViewTransport = async (req, res) => {
     TypeTransport: View
   })
 }
-////////////Booking
+//////////////////Booking
 let Booking = async (req, res) => {
   let getInfo = req.body;
   if (getInfo.idUser == null || getInfo.idUser == "" || getInfo.idUser == undefined) {
@@ -172,7 +172,7 @@ let Booking = async (req, res) => {
   })
 }
 
-/////////Create 1 tour
+//////////////////Create 1 tour
 let CreateTour = async (req, res) => {
   let getInfo = req.body;
   if (getInfo.TotalTime == null || getInfo.TotalTime == "" || getInfo.TotalTime == undefined) {
@@ -239,7 +239,7 @@ let CreateTour = async (req, res) => {
 }
 
 
-/////////Create 1 CreateRecommend
+//////////////////Create 1 CreateRecommend
 let CreateRecommend = async (req, res) => {
   let getInfo = req.body;
   if (getInfo.NameDiaDiem == null || getInfo.NameDiaDiem == "" || getInfo.NameDiaDiem == undefined) {
@@ -260,6 +260,42 @@ let CreateRecommend = async (req, res) => {
     message: getRecommend.errMessage,
   })
 }
+
+//////////////////View Booking
+let ViewBooking = async (req, res) => {
+  let getInfo = req.body;
+  let info = await ServiceApiService.ViewBooking(getInfo);
+  return res.status(200).json({
+    errCode: info.errCode,
+    InfoBooking: info.errMessage,
+  })
+}
+
+//////////////////View user
+let ViewUser = async (req, res) => {
+  // let getInfo = req.body;
+  // console.log(getInfo.id)
+  let info = await ServiceApiService.ViewUser();
+  return res.status(200).json({
+    errCode: info.errCode,
+    InfoUser: info.errMessage,
+  })
+}
+
+//////////////////ViewTour
+let ViewTour = async (req, res) => {
+  // let getInfo = req.body;
+  let info = await ServiceApiService.ViewTour();
+  return res.status(200).json({
+    errCode: info.errCode,
+    TourInfo: info.errMessage,
+  })
+}
+
+
+
+
 module.exports = {
-  SignIn, loginuser, ViewHome, CreateTransport, ViewTransport, Booking, CreateTour, CreateRecommend
+  SignIn, loginuser, ViewHome, CreateTransport, ViewTransport, Booking, CreateTour, CreateRecommend, ViewBooking, ViewUser,
+  ViewTour
 }

@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 const jwt = require('jsonwebtoken')
 
 //////Thu vien//////
-
+//////////////////Login
 let UserLogin = (email, password, body) => {
   return new Promise(async (resolve, rejct) => {
     try {
@@ -57,7 +57,7 @@ let UserLogin = (email, password, body) => {
   })
 }
 
-//Check email
+//////////////////Check email
 let checkMail = (email) => {
   return new Promise(async (resolve, rejct) => {
     try {
@@ -77,7 +77,7 @@ let checkMail = (email) => {
   })
 }
 
-//Check password
+//////////////////Check password
 let checkPass = () => {
   return new Promise(async (resolve, rejct) => {
     try {
@@ -94,21 +94,21 @@ let checkPass = () => {
     }
   })
 }
-//View Home
+//////////////////View Home
 let ViewTrangChu = () => {
   return new Promise(async (resolve, rejct) => {
     let data = await db.ViewTrangChu.findAll();
     resolve(data)
   })
 }
-//Get token
+//////////////////Get token
 let Token = (body) => {
   return new Promise(async (resolve, rejct) => {
     const token = jwt.sign(body, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' })
     resolve(token)
   })
 }
-//Check Them Transport
+//////////////////Check Them Transport
 let TransPort = (name) => {
   return new Promise(async (resolve, rejct) => {
     try {
@@ -132,7 +132,7 @@ let TransPort = (name) => {
     }
   })
 }
-//Check checkNameTransPort
+//////////////////Check checkNameTransPort
 let checkNameTransPort = (name) => {
   return new Promise(async (resolve, rejct) => {
     try {
@@ -151,7 +151,7 @@ let checkNameTransPort = (name) => {
     }
   })
 }
-//Booking
+//////////////////Booking
 let BookingInfo = (getInfo) => {
   return new Promise(async (resolve, rejct) => {
     try {
@@ -174,7 +174,7 @@ let BookingInfo = (getInfo) => {
     }
   })
 }
-//Create OneTour
+//////////////////Create OneTour
 let OneTour = (getInfo) => {
   return new Promise(async (resolve, rejct) => {
     try {
@@ -186,8 +186,11 @@ let OneTour = (getInfo) => {
       let Date = await db.TourInfo.findOne({
         where: { date: getInfo.date }
       })
+      let Total = await db.TourInfo.findOne({
+        where: { TotalTime: getInfo.TotalTime }
+      })
       // console.log(Date)
-      if (AllTour != null && Date != null) {
+      if (AllTour != null && Date != null && Total != null) {
         tourData.errCode = 1;
         tourData.errMessage = 'Da ton tai truong nay khong the tao!!!'
       }
@@ -204,7 +207,7 @@ let OneTour = (getInfo) => {
         tourData.errCode = 0;
         tourData.errMessage = 'Create Tour Success!!!'
       }
-      /////
+      //
       resolve(tourData)
     }
     catch (e) {
@@ -213,12 +216,12 @@ let OneTour = (getInfo) => {
   })
 }
 
-//Create OneRecommend
+//////////////////Create OneRecommend
 let OneRecommend = (getInfo) => {
   return new Promise(async (resolve, rejct) => {
     try {
       let RData = {};
-      ///
+      //
       let data = await db.Recommend.create({
         NameDiaDiem: getInfo.NameDiaDiem,
         LocalDiaDiem: getInfo.LocalDiaDiem,
@@ -233,6 +236,109 @@ let OneRecommend = (getInfo) => {
     }
   })
 }
+//////////////////ViewBooking
+let ViewBooking = (getInfo) => {
+  return new Promise(async (resolve, rejct) => {
+    try {
+      let RData = {};
+      if (!getInfo.id) {
+        resolve({
+          errCode: 1,
+          errMessage: 'Chua Truyen Id De tim thong tin booking!!!'
+        })
+      }
+      else {
+        let RData = {};
+        let data = await db.Booking.findOne({
+          attributes: ['id', 'Adult', 'Children', 'Status'],
+          where: { id: getInfo.id },
+          include: [
+            { model: db.User, attributes: ['id', 'firstName', 'lastName', 'SDT'] },
+            { model: db.TourInfo }
+
+            // { model: db.TourInfo, attributes: ['id', 'TotalTime', 'date', 'Time', 'Description', 'Price'] },
+            // { model: db.TypeOfTransport, attributes: ['id', 'imageTransport'] },
+            // { model: db.Recommend, attributes: ['id', 'NameDiaDiem', 'LocalDiaDiem'] }
+          ],
+          raw: true,
+          nest: true
+        })
+        RData.errCode = 0;
+        RData.errMessage = data
+        resolve(RData)
+      }
+    }
+    catch (e) {
+      rejct(e)
+    }
+  })
+}
+//////////////////View User
+let ViewUser = (getInfo) => {
+  return new Promise(async (resolve, rejct) => {
+    // try {
+    //   let RData = {};
+    //   if (getInfo.id == null || getInfo.id == "" || getInfo.id == undefined) {
+    //     resolve({
+    //       errCode: 1,
+    //       errMessage: 'Chua Truyen Id de tim user!!!'
+    //     })
+    //   }
+    //   else {
+    //     let RData = {};
+    //     let data = await db.User.findOne({
+    //       attributes: ['id', 'firstName', 'lastName', 'email', 'address', 'SDT'],
+    //       where: { id: getInfo.id },
+    //       include: [
+    //         { model: db.Role, attributes: ['roleName'] },
+    //       ],
+    //       raw: true,
+    //       nest: true
+    //     })
+    //     RData.errCode = 0;
+    //     RData.errMessage = data
+    //     resolve(RData)
+    //   }
+    // }
+    // catch (e) {
+    //   rejct(e)
+    // }
+
+    let RData = {};
+    let data = await db.User.findAll({
+      attributes: ['id', 'firstName', 'lastName', 'email', 'address', 'SDT'],
+      // where: { id: getInfo.id },
+      include: [
+        { model: db.Role, attributes: ['roleName'] },
+      ],
+      raw: true,
+      nest: true
+    })
+    RData.errCode = 0;
+    RData.errMessage = data
+    resolve(RData)
+  })
+}
+//////////////////View Tour
+let ViewTour = () => {
+  return new Promise(async (resolve, rejct) => {
+    let RData = {};
+    let data = await db.TourInfo.findAll({
+      attributes: ['id', 'TotalTime', 'date', 'Time', 'Description', 'Price'],
+      // where: { id: id },
+      include: [
+        { model: db.TypeOfTransport, attributes: ['imageTransport'] },
+        { model: db.Recommend, attributes: ['NameDiaDiem', 'LocalDiaDiem'] }
+      ],
+      raw: true,
+      nest: true
+    })
+    RData.errCode = 0;
+    RData.errMessage = data
+    resolve(RData)
+  })
+}
 module.exports = {
-  UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort, BookingInfo, OneTour, OneRecommend
+  UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort, BookingInfo, OneTour, OneRecommend, ViewUser,
+  ViewTour, ViewBooking
 }
