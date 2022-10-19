@@ -14,6 +14,8 @@ const initapi = (app) => {
   router.post('/CreateRecommend', apicontroller.CreateRecommend);
   router.post('/ViewUser', apicontroller.ViewUser);
   router.post('/ViewTour', apicontroller.ViewTour);
+  router.post('/FindTourById', apicontroller.FindTourById);
+  router.post('/FindTourByNamelocal', apicontroller.FindTourByNamelocal);
   ///
   return app.use('/api/v1/', router)
 }

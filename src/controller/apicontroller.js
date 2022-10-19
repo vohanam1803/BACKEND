@@ -297,10 +297,55 @@ let ViewTour = async (req, res) => {
   })
 }
 
+//////////////////Tim kiem tour
+// let FindTour = async (req, res) => {
+//   //let getInfo = req.body;
+
+//   let info = await db.ServiceApiService.findOneTour();
+//   return res.status(200).json({
+//     errCode: info.errCode,
+//     TourInfo: info.errMessage
+//   })
 
 
+// }
+//////////////////Findtour
+let FindTourById = async (req, res) => {
+  let getInfo = req.body;
+  if (!getInfo.id) {
+    return res.status(500).json({
+      errCode: 0,
+      TourInfo: 'Chua Truyen id de tim tour!!',
+    })
+  }
+  else {
+    let info = await ServiceApiService.FindTour(getInfo);
+    return res.status(200).json({
+      errCode: info.errCode,
+      TourInfo: info.errMessage,
+    })
+  }
+}
 
+//////////////////Findtour
+let FindTourByNamelocal = async (req, res) => {
+  let getInfo = req.body;
+  if (!getInfo.name) {
+    return res.status(500).json({
+      errCode: 0,
+      TourInfo: 'Chua Truyen gia tri name de tim tour!!',
+    })
+  }
+  else {
+    let info = await ServiceApiService.FindTourByNamelocal(getInfo);
+    return res.status(200).json({
+      errCode: info.errCode,
+      TourInfo: info.errMessage,
+    })
+  }
+
+}
 module.exports = {
   SignIn, loginuser, ViewHome, CreateTransport, ViewTransport, Booking, CreateTour, CreateRecommend, ViewBooking, ViewUser,
-  ViewTour
+  ViewTour, FindTourById, FindTourByNamelocal
 }

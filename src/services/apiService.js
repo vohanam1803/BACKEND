@@ -359,7 +359,81 @@ let ViewTour = () => {
     resolve(RData)
   })
 }
+
+//////////////////Find 1 by id Tour
+let FindTour = (getInfo) => {
+  return new Promise(async (resolve, rejct) => {
+    let RData = {};
+    let data = await db.TourInfo.findOne({
+      attributes: ['id', 'TotalTime', 'date', 'Time', 'Description', 'Price'],
+      where: { id: getInfo.id },
+      include: [
+        { model: db.TypeOfTransport, attributes: ['imageTransport'] },
+        { model: db.Recommend, attributes: ['NameDiaDiem', 'LocalDiaDiem'] }
+      ],
+      raw: true,
+      nest: true
+    })
+    if (data == null || data == "" || data == undefined || data == {} || data == []) {
+      RData.errCode = 1;
+      RData.errMessage = 'Khong ton tai tour nay!!'
+    }
+    else {
+      RData.errCode = 0;
+      RData.errMessage = data
+    }
+
+    resolve(RData)
+  })
+}
+
+//////////////////Find 1 by id Tour
+let FindTourByNamelocal = (getInfo) => {
+  return new Promise(async (resolve, rejct) => {
+    let RData = {};
+    let data = await db.Recommend.findOne({
+      attributes: ['id', 'NameDiaDiem', 'LocalDiaDiem'],
+      where: { NameDiaDiem: getInfo.name },
+      raw: true,
+      nest: true
+    })
+    //console.log(data.id)
+
+    let getdata = await db.TourInfo.findOne({
+      attributes: ['id', 'TotalTime', 'date', 'Time', 'Description', 'Price', 'idRecommend'],
+      where: { idRecommend: data.id },
+      include: [
+        { model: db.TypeOfTransport, attributes: ['imageTransport'] },
+        { model: db.Recommend, attributes: ['NameDiaDiem', 'LocalDiaDiem'] }
+      ],
+      raw: true,
+      nest: true
+    })
+    //console.log(getdata)
+    // let data = await db.TourInfo.findOne({
+    //   attributes: ['id', 'TotalTime', 'date', 'Time', 'Description', 'Price'],
+    //   where: { idRecommend: getdata.id },
+    //   include: [
+    //     { model: db.TypeOfTransport, attributes: ['imageTransport'] },
+    //     { model: db.Recommend, attributes: ['NameDiaDiem', 'LocalDiaDiem'] }
+    //   ],
+    //   raw: true,
+    //   nest: true
+    // })
+    if (data == null || data == "" || data == undefined || data == {} || data == []) {
+      RData.errCode = 1;
+      RData.errMessage = 'Khong ton tai tour nay!!'
+    }
+    else {
+      delete getdata.idRecommend;
+      RData.errCode = 0;
+      RData.errMessage = getdata
+    }
+
+    resolve(RData)
+  })
+}
 module.exports = {
   UserLogin, checkMail, checkPass, ViewTrangChu, Token, TransPort, BookingInfo, OneTour, OneRecommend, ViewUser,
-  ViewTour, ViewBooking
+  ViewTour, ViewBooking, FindTour, FindTourByNamelocal
 }
